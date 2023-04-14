@@ -19,6 +19,8 @@ src/main.cpp
 #include <iostream>
 
 // a function for getting the current microseconds
+//  - Alessandro Pezzato
+//  on <https://stackoverflow.com/questions/19555121/how-to-get-current-timestamp-in-milliseconds-since-1970-just-the-way-java-gets>
 #include <chrono>
 uint64_t timeSinceEpochMicrosec() {
     using namespace std::chrono;
