@@ -86,15 +86,17 @@ cmath::matrix nn::neuralnetwork::predict(cmath::matrix x) {
         // the matrix after taking the activation function into account
         cmath::matrix activated(x.mat);
 
-        // add activation function to the mix
+        // add activation function into the mix
         for (int h = 0; h < x.height; h++) {
             activated.mat[h][0] = this->activation_function(x.mat[h][0]);
         }
 
+        // set x to the matrix with activation function
         x = activated;
 
     }
 
+    // return the output matrix
     return x;
 }
 
