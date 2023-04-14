@@ -11,6 +11,7 @@ It is very simple to use this library. All you have to do, is to install and inc
 2. Currently, neural networks can't be saved or loaded. But this feature is planned.
 
 ## Example:
+src/main.cpp
 ```cpp
 // This will create a neural network with random weights. It will then make a prediction and print the result.
 
