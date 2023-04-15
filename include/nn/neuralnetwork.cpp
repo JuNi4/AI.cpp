@@ -1,5 +1,16 @@
+/**
+ * @brief Neural Network Library for C++
+ *
+ * @author JuNi4
+ */
 #include "neuralnetwork.h"
+
+// CMath librarys
 #include <CMath/standardNormalDeviation.hpp>
+// json library
+#include <json.hpp>
+
+using json = nlohmann::json;
 
 // Inspired by
 // - https://www.youtube.com/watch?v=8bNIkfRJZpo
@@ -23,6 +34,9 @@ neuralnetwork::neuralnetwork(std::vector<int> sizes, double (*activation_functio
         // create weight shapes
         weight_shapes.push_back({sizes[i], sizes[i+1]});
     }
+
+    // set the sizes of the neural network
+    this->sizes = sizes;
 
     // create weight matrices
     for (int i = 0; i < weight_shapes.size(); i++) {
@@ -54,7 +68,65 @@ neuralnetwork::neuralnetwork(std::vector<int> sizes, double (*activation_functio
     this->activation_function = activation_function;
 }
 
+neuralnetwork::neuralnetwork(const char* path, double (*activation_function)(double)) {
+    // check if file exists
+    if (! std::filesystem::is_regular_file(path) ) {
+        std::cerr << "Can not open file\n";
+        exit(1);
+    }
+    // save the file path
+    this->path_to_file = path;
+    // the file contents
+    std::string content;
+    // load the file
+    std::ifstream aiFile (path);
+
+    while (aiFile) {
+        content += aiFile.get();
+    }
+
+    aiFile.close();
+
+    // load file as json
+    json aiData = json::parse(content.substr(0,content.size()-1));
+
+    // save description and credits
+    if ( aiData["credits"] != nullptr ) {
+        this->credits = aiData["credits"];
+    }
+    if ( aiData["description"] != nullptr ) {
+        this->description = aiData["description"];
+    }
+
+    // set the matrix sizes
+    this->sizes = (std::vector<int>) aiData["layer_sizes"];
+
+    // set the weights
+    for (int i = 0; i < aiData["weights"].size(); i++) {
+        // recreate the weight matrix
+        cmath::matrix x( (std::vector<std::vector<double>>) aiData["weights"][i] );
+        // add the weight matrix to the weight list
+        this->weights.push_back(x);
+    }
+
+    // set the biases
+    for (int i = 0; i < aiData["biases"].size(); i++) {
+        // recreate the bias matrix
+        cmath::matrix x( (std::vector<std::vector<double>>) aiData["biases"][i] );
+        // add the bias matrix to the bias list
+        this->biases.push_back(x);
+    }
+
+    // set the activation functions
+    this->activation_function = activation_function;
+}
+
 cmath::matrix nn::neuralnetwork::predict(cmath::matrix x) {
+    // check if input matrix has the correct dimensions
+    if (!( x.width == this->sizes[0] && x.height == 1 )) {
+        std::cerr << "Input matrix for prediction is not the correct size\n";
+        exit(1);
+    }
     // make a prediction
     for (int i = 0; i < this->weights.size(); i++) {
         // do math
@@ -98,6 +170,52 @@ cmath::matrix nn::neuralnetwork::predict(cmath::matrix x) {
 
     // return the output matrix
     return x;
+}
+
+void neuralnetwork::save(const char* path) {
+    // check if the path has been saved
+    if (! std::filesystem::is_regular_file(path) ) {
+        std::cerr << "Can not open file\n";
+        exit(1);
+    }
+
+    // create the json object
+    json out;
+
+    // set description
+    if ( this->description != "" ) {
+        out["description"] = this->description;
+    }
+    // set credits
+    if ( this->credits != "" ) {
+        out["credits"] = this->credits;
+    }
+
+    // set sizes
+    out["layer_sizes"] = this->sizes;
+
+    // set the bias values
+    out["biases"] = {};
+    for ( int i = 0; i < this->biases.size(); i++ ) {
+        out["biases"].push_back(this->biases[i].mat);
+    }
+
+    // set the weight values
+    out["weights"] = {};
+    for ( int i = 0; i < this->weights.size(); i++ ) {
+        out["weights"].push_back(this->weights[i].mat);
+    }
+
+    // open file
+    std::ofstream aiFile(path);
+    // save json to file
+    aiFile << out.dump(4).c_str();
+    // close the file
+    aiFile.close();
+}
+
+void neuralnetwork::save() {
+    this->save(this->path_to_file);
 }
 
 };
