@@ -44,7 +44,7 @@ int main() {
     std::cout << network.predict( cmath::matrix( inputs ) ).str() << "\n";
 
     // print the time it took to execute the programm
-    std::cout << "end of programm, took " << timeSinceEpochMicrosec()-start << " Microseconds\n";
+    std::cout << "end of programm, took " << timeSinceEpochMicrosec()-start << " microseconds\n";
     return 0;
 }
 ```
