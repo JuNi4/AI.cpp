@@ -172,7 +172,7 @@ cmath::matrix nn::neuralnetwork::predict(cmath::matrix x) {
     return x;
 }
 
-void neuralnetwork::save(const char* path) {
+void neuralnetwork::save(const char* path, int indent) {
     // check if the path has been saved
     if (! std::filesystem::is_regular_file(path) ) {
         std::cerr << "Can not open file\n";
@@ -209,7 +209,11 @@ void neuralnetwork::save(const char* path) {
     // open file
     std::ofstream aiFile(path);
     // save json to file
-    aiFile << out.dump(4).c_str();
+    if (indent >= 0) {
+        aiFile << out.dump(indent).c_str();
+    } else {
+        aiFile << out.dump().c_str();
+    }
     // close the file
     aiFile.close();
 }

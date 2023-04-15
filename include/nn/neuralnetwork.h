@@ -71,7 +71,7 @@ class neuralnetwork {
          * 
          * @param path The path to the file
          */
-        void save(const char* path);
+        void save(const char* path, int indent = 4);
 
         /**
          * @brief Saves the neural network to the same file it got loaded from
