@@ -10,6 +10,8 @@ It is very simple to use this library. All you have to do, is to install and inc
 
 2. Currently, neural networks can't be saved or loaded. But this feature is planned.
 
+3. The saving and loading of neural networks requires a JSON library (https://github.com/nlohmann/json/), wich is already included.
+
 ## Examples:
 ### A simple random network
 src/main.cpp
