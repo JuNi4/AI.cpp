@@ -35,7 +35,7 @@ int main() {
     // the sizes of the layers, the neural network will have 2 input neurons, 5 neurons on a hidden layer and 10 output neurons. 
     std::vector<int> sizes = {2,5,10};
     
-    // create the neural network object
+    // create the neural network object with the previusly defined sizes and the default sigmoid avtivation function provided by the neural network library
     nn::neuralnetwork network(sizes, &nn::sigmoid_activation);
 
     // create the input vector used for the prediction
