@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+# local folders
+local
+local/*
+
+# ide folders
+.vscode
+
+# datasets
+src/dataset

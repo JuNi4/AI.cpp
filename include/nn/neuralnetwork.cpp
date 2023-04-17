@@ -173,12 +173,6 @@ cmath::matrix nn::neuralnetwork::predict(cmath::matrix x) {
 }
 
 void neuralnetwork::save(const char* path, int indent) {
-    // check if the path has been saved
-    if (! std::filesystem::is_regular_file(path) ) {
-        std::cerr << "Can not open file\n";
-        exit(1);
-    }
-
     // create the json object
     json out;
 
@@ -206,6 +200,10 @@ void neuralnetwork::save(const char* path, int indent) {
         out["weights"].push_back(this->weights[i].mat);
     }
 
+    if (! std::filesystem::is_regular_file(path) ) {
+
+    }
+
     // open file
     std::ofstream aiFile(path);
     // save json to file
@@ -219,6 +217,11 @@ void neuralnetwork::save(const char* path, int indent) {
 }
 
 void neuralnetwork::save() {
+    // check if the path has been saved
+    if (! std::filesystem::is_regular_file(this->path_to_file) ) {
+        std::cerr << "Can not open file\n";
+        exit(1);
+    }
     this->save(this->path_to_file);
 }
 

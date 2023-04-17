@@ -5,7 +5,7 @@ SRC		:= src
 INCLUDE	:= include
 LIB		:= lib
 
-LIBRARIES	:= include/nn/*.cpp include/CMath/*.cpp
+LIBRARIES	:= include/nn/*.cpp include/CMath/*.cpp include/*.hpp
 
 EXECUTABLE	:= main
 
@@ -16,8 +16,12 @@ run: clean all
 
 c: clean all
 
-$(BIN)/$(EXECUTABLE): $(SRC)/*.cpp
+$(BIN)/$(EXECUTABLE): $(SRC)/main.cpp
 	$(CXX) $(CXX_FLAGS) -I$(INCLUDE) -L$(LIB) $^ -o $@ $(LIBRARIES)
 
 clean:
 	-rm $(BIN)/*
+
+train: $(SRC)/evoloution_training.cpp
+	$(CXX) $(CXX_FLAGS) -I$(INCLUDE) -L$(LIB) $^ -o $(BIN)/$(EXECUTABLE) $(LIBRARIES)
+	./$(BIN)/$(EXECUTABLE)
