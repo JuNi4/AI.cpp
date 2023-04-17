@@ -72,7 +72,7 @@ int main() {
     std::cout << "[Training] Calculating percantage.\n";
     double startingPercentage = ((float)correct / (float)trainingData["images"].size());
 
-    std::cout << "[Trainig] Initial correct answers: " << correct << trainingData["images"].size() << "(" << startingPercentage*100 << ").\n" ;
+    std::cout << "[Trainig] Initial correct answers: " << correct << "/" << trainingData["images"].size() << " (" << startingPercentage*100 << "%).\n" ;
 
     // train the network
 
