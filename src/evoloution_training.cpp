@@ -57,7 +57,7 @@ int main() {
         ai = nn::neuralnetwork(save_path, &nn::sigmoid_activation);
     } else {
         std::cout << "[Training] Creating new network.\n";
-        ai = nn::neuralnetwork({28*28, 300, 10}, &nn::sigmoid_activation);
+        ai = nn::neuralnetwork({28*28, 25, 10}, &nn::sigmoid_activation);
     }
 
     // get dataset
