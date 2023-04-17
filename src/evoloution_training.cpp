@@ -34,7 +34,7 @@ int getAccuracy( std::vector<std::vector<double>> dataset, std::vector<int> labe
     int correct = 0;
     // make a lot of predictions and check if they are correct
     for (int i = 0; i < dataset.size(); i++) {
-        std::cout << i << "/" << dataset.size() << "\n";
+        std::cout << i << "/" << dataset.size() << "\r";
         // create input matrix
         cmath::matrix input({dataset[i]});
         // make prediction
@@ -44,6 +44,7 @@ int getAccuracy( std::vector<std::vector<double>> dataset, std::vector<int> labe
             correct++;
         }
     }
+    std::cout << dataset.size() << "/" << dataset.size() << "\n";
     // return the amount of correct results
     return correct;
 }
@@ -72,7 +73,7 @@ int main() {
     std::cout << "[Training] Calculating percantage.\n";
     double startingPercentage = ((float)correct / (float)trainingData["images"].size());
 
-    std::cout << "[Trainig] Initial correct answers: " << correct << "/" << trainingData["images"].size() << " (" << startingPercentage*100 << "%).\n" ;
+    std::cout << "[Training] Initial correct answers: " << correct << "/" << trainingData["images"].size() << " (" << startingPercentage*100 << "%).\n" ;
 
     // train the network
 
