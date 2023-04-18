@@ -176,11 +176,14 @@ int main() {
 
     json trainingData = dataset["training"];
 
+    std::vector<std::vector<double>> images = trainingData["images"];
+    std::vector<std::vector<double>> labels = trainingData["labels"];
+
     // get an initial accuracy
     std::cout << "[Training] Getting initial accuracy.\n";
-    int correct = getAccuracy( trainingData["images"], trainingData["labels"], ai);
+    int correct = getAccuracy( images, labels, ai);
 
-    int size = trainingData["images"].size();
+    int size = images.size();
     #ifdef SAMPLE_SIZE
     size = SAMPLE_SIZE;
     #endif
@@ -220,11 +223,11 @@ int main() {
         for (int i = 0; i < GENERATION_SIZE; i++) {
             std::cout << "[Training] Testing network " << i+1 << "/" << GENERATION_SIZE << ".\n";
             // get accuracy of the current network
-            double a = getScore( trainingData["images"],trainingData["labels"], networks[i] );
+            double a = getScore( images,labels, networks[i] );
 
             std::cout << "[Training] Network " << i+1 << " achieved a score of " << a << ".\n";
             // save the score
-            scores[a];
+            scores[i] = a;
         }
 
         //std::cout << "[Training] Testing network " << GENERATION_SIZE << "/" << GENERATION_SIZE << ".\n";
