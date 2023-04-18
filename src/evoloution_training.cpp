@@ -16,7 +16,7 @@ using json = nlohmann::json;
 // Settings //
 #define SAMPLE_SIZE 10000
 #define GENERATION_SIZE 10
-#define LEARN_RATE 0.1
+#define LEARN_RATE 10
 
 
 // the path to the save of the network
@@ -225,6 +225,8 @@ int main() {
             std::cout << "[Training] Saving network...\n";
             ai.save(save_path,-1);
         }
+
+        generationCount++;
 
     }
 
