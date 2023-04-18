@@ -177,7 +177,7 @@ int main() {
     json trainingData = dataset["training"];
 
     std::vector<std::vector<double>> images = trainingData["images"];
-    std::vector<std::vector<double>> labels = trainingData["labels"];
+    std::vector<int> labels = trainingData["labels"];
 
     // get an initial accuracy
     std::cout << "[Training] Getting initial accuracy.\n";
