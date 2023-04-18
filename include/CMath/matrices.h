@@ -74,6 +74,7 @@ class matrix {
 
     // boolean operators
     bool operator==(matrix b);
+    bool operator!=(matrix b);
 
     /* Theese operators are not posible with matrices
     bool operator>=(matrix b);

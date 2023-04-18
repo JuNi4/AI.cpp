@@ -79,6 +79,8 @@ class neuralnetwork {
          */
         void save();
 
+        bool operator==(neuralnetwork b);
+
 };
 
 };

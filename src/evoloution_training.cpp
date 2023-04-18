@@ -71,7 +71,7 @@ int getAccuracy( std::vector<std::vector<double>> dataset, std::vector<int> labe
     return correct;
 }
 
-nn::neuralnetwork tweak(nn::neuralnetwork input) {
+nn::neuralnetwork tweak( nn::neuralnetwork input ) {
     // make a lot of changes
 
     // weights //
@@ -179,18 +179,18 @@ int main() {
         // add main network to generation
         networks.push_back(ai);
 
-
         std::cout << "[Training] Creating generation " << generationCount << " with a size of " << GENERATION_SIZE << ".\n";
         // copy the main neural network x times
         for (int i = 0; i < GENERATION_SIZE-1; i++) {
-            nn::neuralnetwork x = tweak(ai);
-            networks.push_back(x);
+            networks.push_back( tweak(ai) );
         }
 
         std::cout << "[Training] Started testing for generation "<< generationCount <<".\n";
         // get scores
         for (int i = 0; i < GENERATION_SIZE; i++) {
             std::cout << "[Training] Testing network " << i+1 << "/" << GENERATION_SIZE << ".\n";
+
+            std::cout << (networks[i] == ai) << "\n";
             // get accuracy of the current network
             int a = getAccuracy( trainingData["images"],trainingData["labels"], networks[i] );
 

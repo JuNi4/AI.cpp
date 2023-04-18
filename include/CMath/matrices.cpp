@@ -295,6 +295,10 @@ bool matrix::operator==(matrix b) {
     return this->mat == b.mat;
 }
 
+bool matrix::operator!=(matrix b) {
+    return this->mat != b.mat;
+}
+
 /* Theese operators are not posible with matrices
 bool matrix::operator>=(matrix b) {
 

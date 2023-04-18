@@ -225,4 +225,21 @@ void neuralnetwork::save() {
     this->save(this->path_to_file);
 }
 
+bool neuralnetwork::operator==(neuralnetwork b) {
+    // compare the two networks
+    //return (this->sizes == b.sizes && this->weights == b.weights && this->biases == b.biases);
+
+    if (this->sizes != b.sizes) { return false; }
+
+    for (int i = 0; i < this->weights.size(); i++) {
+        if (this->weights[i] != b.weights[i]) { return false; }
+    }
+
+    for (int i = 0; i < this->biases.size(); i++) {
+        if (this->biases[i] != b.biases[i]) { return false; }
+    }
+
+    return true;
+}
+
 };
