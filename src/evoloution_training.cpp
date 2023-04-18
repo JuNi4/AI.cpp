@@ -11,6 +11,11 @@
 
 using json = nlohmann::json;
 
+// Settings //
+#define SAMPLE_SIZE 10000
+#define GENERATION_SIZE 25
+
+
 // the path to the save of the network
 const char* save_path = "trained_models/number_recognition.json";
 
@@ -32,9 +37,14 @@ int highest(std::vector<double> inp) {
 int getAccuracy( std::vector<std::vector<double>> dataset, std::vector<int> labels, nn::neuralnetwork ai ) {
     // the amount of correct results
     int correct = 0;
+    // get the sample size
+    int size = dataset.size();
+    #ifdef SAMPLE_SIZE
+    size = SAMPLE_SIZE;
+    #endif
     // make a lot of predictions and check if they are correct
-    for (int i = 0; i < dataset.size(); i++) {
-        std::cout << i << "/" << dataset.size() << "\r";
+    for (int i = 0; i < size; i++) {
+        std::cout << "[Training] Sample " << i << "/" << size << "\r";
         // create input matrix
         cmath::matrix input({dataset[i]});
         // make prediction
@@ -44,7 +54,7 @@ int getAccuracy( std::vector<std::vector<double>> dataset, std::vector<int> labe
             correct++;
         }
     }
-    std::cout << dataset.size() << "/" << dataset.size() << "\n";
+    std::cout << "[Training] Sample " << size << "/" << size << "\n";
     // return the amount of correct results
     return correct;
 }
@@ -70,10 +80,15 @@ int main() {
     std::cout << "[Training] Getting initial accuracy.\n";
     int correct = getAccuracy( trainingData["images"], trainingData["labels"], ai);
 
-    std::cout << "[Training] Calculating percantage.\n";
-    double startingPercentage = ((float)correct / (float)trainingData["images"].size());
+    int size = trainingData["images"].size();
+    #ifdef SAMPLE_SIZE
+    size = SAMPLE_SIZE;
+    #endif
 
-    std::cout << "[Training] Initial correct answers: " << correct << "/" << trainingData["images"].size() << " (" << startingPercentage*100 << "%).\n" ;
+    std::cout << "[Training] Calculating initial percantage.\n";
+    double startingPercentage = ((float)correct / (float)size);
+
+    std::cout << "[Training] Initial correct answers: " << correct << "/" << size << " (" << startingPercentage*100 << "%).\n" ;
 
     // train the network
 
@@ -81,6 +96,8 @@ int main() {
     std::cout << "[Training] Reached end of programm, saving network...\n";
     // at the end, save the neural network
     ai.save(save_path, -1);
+
+    std::cout << "[Training] Network saved!\n";
 
     return 0;
 }
