@@ -102,7 +102,7 @@ nn::neuralnetwork tweak(nn::neuralnetwork input) {
 
     // biases //
     // calculate the amount of biases
-    int size = 0;
+    size = 0;
 
     for (int bm = 0; bm < input.biases.size(); bm++) {
         for (int bHeight = 0; bHeight < input.biases[bm].mat.size(); bHeight++) {
