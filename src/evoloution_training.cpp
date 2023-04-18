@@ -247,10 +247,12 @@ int main() {
             }
         }
 
-        std::cout << "[Training] Updating main network.\n";
+        std::cout << "[Training] Updating main network to network " << index+1 << " .\n";
 
         // set main network to the best performing of the generation
         ai = networks[index];
+
+        if ( !(ai == networks[index]) ) {exit(1);}
 
         if (generationCount % 2 == 0) {
             std::cout << "[Training] Saving network...\n";
