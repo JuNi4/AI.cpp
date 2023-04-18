@@ -16,7 +16,7 @@ using json = nlohmann::json;
 // Settings //
 #define SAMPLE_SIZE 10000
 #define GENERATION_SIZE 10
-#define LEARN_RATE 10
+#define LEARN_RATE 1
 
 
 // the path to the save of the network
@@ -70,6 +70,36 @@ int getAccuracy( std::vector<std::vector<double>> dataset, std::vector<int> labe
     // return the amount of correct results
     return correct;
 }
+
+double getScore( std::vector<std::vector<double>> dataset, std::vector<int> labels, nn::neuralnetwork ai, bool print_progress = true ) {
+    // the amount of correct results
+    double correct = 0;
+    // get the sample size
+    int size = dataset.size();
+    #ifdef SAMPLE_SIZE
+    size = SAMPLE_SIZE;
+    #endif
+    // make a lot of predictions and check if they are correct
+    for (int i = 0; i < size; i++) {
+        if (print_progress) {
+            std::cout << "[Training] Sample " << i << "/" << size << ".\r";
+        }
+        // create input matrix
+        cmath::matrix input({dataset[i]});
+        // make prediction
+        cmath::matrix output = ai.predict( input );
+        // check if the highest output is the correct answer
+        if ( highest(output.mat[0]) == labels[i] ) {
+            correct+= output.mat[0][highest(output.mat[0])];
+        }
+    }
+    if (print_progress) {
+        std::cout << "[Training] Sample " << size << "/" << size << ".\n";
+    }
+    // return the amount of correct results
+    return correct;
+}
+
 
 nn::neuralnetwork tweak( nn::neuralnetwork input ) {
     // make a lot of changes
@@ -174,7 +204,7 @@ int main() {
     while (true) {
         // a list holding all neural networks
         std::vector<nn::neuralnetwork> networks;
-        std::vector<int> scores;
+        std::vector<double> scores(GENERATION_SIZE);
 
         // add main network to generation
         networks.push_back(ai);
@@ -189,20 +219,18 @@ int main() {
         // get scores
         for (int i = 0; i < GENERATION_SIZE; i++) {
             std::cout << "[Training] Testing network " << i+1 << "/" << GENERATION_SIZE << ".\n";
-
-            std::cout << (networks[i] == ai) << "\n";
             // get accuracy of the current network
-            int a = getAccuracy( trainingData["images"],trainingData["labels"], networks[i] );
+            double a = getScore( trainingData["images"],trainingData["labels"], networks[i] );
 
             std::cout << "[Training] Network " << i+1 << " achieved a score of " << a << ".\n";
             // save the score
-            scores.push_back(a);
+            scores[a];
         }
 
         //std::cout << "[Training] Testing network " << GENERATION_SIZE << "/" << GENERATION_SIZE << ".\n";
 
         // get the best performing network
-        int x = 0;
+        double x = 0;
         int index = 0;
 
         std::cout << "[Training] Evaluating scores...\n";
