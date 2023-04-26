@@ -6,11 +6,7 @@ A "simple" library for creating AIs
 It is very simple to use this library. All you have to do, is to install and include the library. Then simply create a neural network object and specify the sizes for the layers. The first layer will always be the input layer. The last layer will always be the output layer. Last but not least, the neural network needs an activation function. The library comes with one based on a sigmoid function. To use it, add `&nn::sigmoid_activation` as the last argument for the neural network. After you have created a neural network, simply call the 'predict' function of the neural network ang give it the inputs in form of a std::vector<double>. This function will then return the output of the neural network in matrix from.
 
 ## Note:
-1. The neural network, although fast with smaller ones, will take time to process when the amount of neurons are high. It will also consume a lot of RAM, so do not make it bigger than necessary. It will easly consume 16 GB or more at 2 million neurons. Be carefull!
-
-2. Currently, neural networks can't be saved or loaded. But this feature is planned.
-
-3. The saving and loading of neural networks requires a JSON library (https://github.com/nlohmann/json/), wich is already included.
+1. The neural network, although fast with smaller ones, will take time to process when the amount of neurons are high. It will also consume a lot of RAM, so do not make it bigger than necessary. It will easly consume 16 GB or more at 2 million neurons. Be careful.
 
 ## Examples:
 ### A simple random network
