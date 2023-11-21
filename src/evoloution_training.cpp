@@ -250,7 +250,10 @@ int main() {
         std::cout << "[Training] Updating main network to network " << index+1 << " .\n";
 
         // set main network to the best performing of the generation
-        ai = networks[index];
+        //ai = networks[index];
+
+        networks[index].save(save_path,-1);
+        ai = nn::neuralnetwork(save_path, &nn::sigmoid_activation);
 
         if ( !(ai == networks[index]) ) {exit(1);}
 
